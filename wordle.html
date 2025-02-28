@@ -56,7 +56,8 @@
         #correct-positions .input-box {
             background-color: #a4ff00; /* Green for correct positions */
         }
-        #incorrect-positions .input-box {
+        #incorrect-positions .input-box,
+        #incorrect-positions-2 .input-box {
             background-color: #fbff1e; /* Yellow for incorrect positions */
         }
         #excluded-letters .input-box {
@@ -96,10 +97,21 @@
         </div>
     </div>
 
-    <!-- Incorrect Positions -->
+    <!-- Incorrect Positions (First Row) -->
     <div class="section">
         <h3>Incorrect Positions (Letters in the word but wrong position)</h3>
         <div class="input-container" id="incorrect-positions">
+            <input type="text" class="input-box" maxlength="1" data-index="0">
+            <input type="text" class="input-box" maxlength="1" data-index="1">
+            <input type="text" class="input-box" maxlength="1" data-index="2">
+            <input type="text" class="input-box" maxlength="1" data-index="3">
+            <input type="text" class="input-box" maxlength="1" data-index="4">
+        </div>
+    </div>
+
+    <!-- Incorrect Positions (Second Row) -->
+    <div class="section">
+        <div class="input-container" id="incorrect-positions-2">
             <input type="text" class="input-box" maxlength="1" data-index="0">
             <input type="text" class="input-box" maxlength="1" data-index="1">
             <input type="text" class="input-box" maxlength="1" data-index="2">
@@ -238,8 +250,11 @@
             // Get correct positions
             const correctPositions = getLettersFromInputs('correct-positions');
 
-            // Get incorrect positions
-            const incorrectPositions = getLettersFromInputs('incorrect-positions');
+            // Get incorrect positions (from both rows)
+            const incorrectPositions = {
+                ...getLettersFromInputs('incorrect-positions'),
+                ...getLettersFromInputs('incorrect-positions-2')
+            };
 
             // Get excluded letters
             const excludedLetters = getExcludedLetters('excluded-letters');
