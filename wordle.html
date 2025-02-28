@@ -140,7 +140,7 @@
     <div class="result" id="result"></div>
 
     <!-- Copy Button -->
-    <button class="button" id="copy-button" onclick="copyWord()">Copy</button>
+    <button class="button" id="copy-button" onclick="copyWords()">Copy</button>
 
     <script>
         let wordList = [];
@@ -221,14 +221,14 @@
             return filteredWords;
         }
 
-        // Function to copy the word to clipboard
-        function copyWord() {
+        // Function to copy the words to clipboard
+        function copyWords() {
             const resultDiv = document.getElementById('result');
-            const word = resultDiv.textContent.replace("Possible word(s): ", "").split(",")[0].trim();
-            navigator.clipboard.writeText(word).then(() => {
-                alert(`Copied: ${word}`);
+            const words = resultDiv.textContent.replace("Possible word(s): ", "").trim();
+            navigator.clipboard.writeText(words).then(() => {
+                alert(`Copied: ${words}`);
             }).catch(() => {
-                alert("Failed to copy word.");
+                alert("Failed to copy words.");
             });
         }
 
@@ -256,12 +256,8 @@
             } else {
                 const formattedWords = possibleWords.map(word => word.charAt(0).toUpperCase() + word.slice(1));
                 resultDiv.textContent = "Possible word(s): " + formattedWords.join(', ');
-                // Show copy button only if there is exactly one word
-                if (possibleWords.length === 1) {
-                    copyButton.style.display = "inline-block";
-                } else {
-                    copyButton.style.display = "none";
-                }
+                // Show copy button if there are words found
+                copyButton.style.display = "inline-block";
             }
         }
 
@@ -281,11 +277,15 @@
             });
         });
 
-        // Autofocus next/previous input box for excluded letters
+        // Autofocus next input box for excluded letters (skip non-empty boxes)
         document.getElementById('excluded-letters').addEventListener('input', (event) => {
             const input = event.target;
             if (input.value.length === 1) {
-                const nextInput = input.nextElementSibling;
+                let nextInput = input.nextElementSibling;
+                // Skip non-empty boxes
+                while (nextInput && nextInput.value) {
+                    nextInput = nextInput.nextElementSibling;
+                }
                 if (nextInput) {
                     nextInput.focus();
                 }
