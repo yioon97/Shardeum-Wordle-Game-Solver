@@ -303,6 +303,13 @@
             }
         });
 
+        // Trigger Solve button on pressing Enter key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                solveWordle();
+            }
+        });
+
         // Load word list on page load
         window.onload = loadWordList;
     </script>
