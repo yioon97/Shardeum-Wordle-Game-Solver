@@ -76,3 +76,4 @@ store
 peers
 bears
 shard
+maker
